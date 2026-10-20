@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diksiyon & Hitabet - Hesap Doğrulandı</title>
 
-  <!-- YÖNLENDİRİCİ: E-postadan kurtarma token'ı geldiğinde eksiksiz olarak reset-password.html sayfasına aktarır -->
   <script>
     (function() {
       var hash = window.location.hash || '';
       var search = window.location.search || '';
-      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+      if (hash.includes('type=recovery') || search.includes('type=recovery') || search.includes('code=')) {
         window.location.replace('/reset-password.html' + search + hash);
       }
     })();
