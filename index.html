@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Diksiyon & Hitabet</title>
   
-  <!-- Supabase JS Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
@@ -20,12 +19,9 @@
       --error-bg: rgba(255, 77, 77, 0.12);
       --error-border: rgba(255, 77, 77, 0.35);
       --error-text: #FF6B6B;
-      --success-bg: rgba(45, 212, 191, 0.12);
-      --success-border: rgba(45, 212, 191, 0.35);
-      --success-text: #2DD4BF;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     
     body {
       background-color: var(--bg-color);
@@ -35,7 +31,6 @@
       justify-content: center;
       min-height: 100vh;
       padding: 20px;
-      -webkit-font-smoothing: antialiased;
     }
 
     .card {
@@ -47,15 +42,10 @@
       width: 100%;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
     }
 
     .badge {
       display: inline-flex;
-      align-items: center;
-      gap: 6px;
       background: rgba(108, 99, 255, 0.15);
       color: var(--primary);
       border: 1px solid rgba(108, 99, 255, 0.3);
@@ -64,42 +54,13 @@
       font-size: 13px;
       font-weight: 700;
       margin-bottom: 24px;
-      letter-spacing: 0.5px;
     }
 
-    h1, h2 {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 10px;
-    }
+    h1, h2 { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
+    p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
 
-    p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    /* FORM ELEMANLARI */
-    .input-group {
-      text-align: left;
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
+    .input-group { text-align: left; margin-bottom: 18px; }
+    label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
     input {
       width: 100%;
       padding: 14px 16px;
@@ -109,15 +70,9 @@
       color: #fff;
       font-size: 15px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
+    input:focus { border-color: var(--primary); }
 
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.25);
-    }
-
-    /* UYARI VE MESAJ KUTULARI */
     .alert {
       padding: 14px 16px;
       border-radius: 12px;
@@ -126,22 +81,13 @@
       text-align: left;
       display: none;
       line-height: 1.5;
-      animation: shake 0.4s ease-in-out;
     }
-
     .alert-error {
       background: var(--error-bg);
       color: var(--error-text);
       border: 1px solid var(--error-border);
     }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
-    }
-
-    /* BUTON */
     button {
       width: 100%;
       padding: 16px;
@@ -152,37 +98,25 @@
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s ease;
       margin-top: 6px;
-      box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
     }
+    button:disabled { background: #2A2D3D; color: #636B7B; cursor: not-allowed; }
 
-    button:hover { background: var(--primary-hover); }
-    button:disabled { background: #2A2D3D; color: #636B7B; cursor: not-allowed; box-shadow: none; }
-
-    /* EKRANLAR */
     .view-screen { display: none; }
     .active-view { display: block; }
-
-    .icon-large {
-      font-size: 60px;
-      margin-bottom: 16px;
-      display: inline-block;
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .icon-large { font-size: 60px; margin-bottom: 16px; display: inline-block; }
+    .footer { font-size: 12px; color: #525C70; margin-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 16px; }
+    
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(108, 99, 255, 0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
     }
-
-    @keyframes popIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .footer {
-      font-size: 12px;
-      color: #525C70;
-      margin-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 16px;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -190,37 +124,39 @@
   <div class="card">
     <div class="badge">🎙️ DİKSİYON & HİTABET</div>
 
+    <!-- 0. YÜKLENİYOR / KONTROL EKRANI (Açılışta Karşılama) -->
+    <div id="loading-screen" class="view-screen active-view">
+      <div class="spinner"></div>
+      <p>Bağlantı kontrol ediliyor...</p>
+    </div>
+
     <!-- 1. ŞİFRE SIFIRLAMA EKRANI -->
     <div id="reset-screen" class="view-screen">
       <h2>Yeni Şifre Belirleyin</h2>
-      <p>Hesabınıza erişmek için yeni bir şifre oluşturun.</p>
+      <p>Hesabınız için yeni bir şifre girin.</p>
 
       <div id="error-alert" class="alert alert-error"></div>
 
-      <form id="password-form" onsubmit="return false;">
+      <form id="reset-form">
         <div class="input-group">
           <label for="pwd">Yeni Şifre</label>
-          <div class="input-wrapper">
-            <input type="password" id="pwd" placeholder="En az 6 karakter" autocomplete="new-password" required minlength="6">
-          </div>
+          <input type="password" id="pwd" placeholder="En az 6 karakter" required minlength="6">
         </div>
 
         <div class="input-group">
           <label for="pwd-confirm">Yeni Şifre (Tekrar)</label>
-          <div class="input-wrapper">
-            <input type="password" id="pwd-confirm" placeholder="Şifrenizi tekrar girin" autocomplete="new-password" required minlength="6">
-          </div>
+          <input type="password" id="pwd-confirm" placeholder="Şifrenizi tekrar girin" required minlength="6">
         </div>
 
-        <button type="button" id="submit-btn" onclick="handlePasswordReset()">Şifreyi Güncelle</button>
+        <button type="submit" id="submit-btn">Şifreyi Güncelle</button>
       </form>
     </div>
 
-    <!-- 2. ŞİFRE BAŞARIYLA SIFIRLANDI EKRANI -->
+    <!-- 2. BAŞARI EKRANI (İşlem Tamamlandığında) -->
     <div id="success-screen" class="view-screen">
       <div class="icon-large">🎉</div>
-      <h2>Şifreniz Başarıyla Değiştirildi!</h2>
-      <p>Hesabınızın şifresi güncellendi. Artık bu pencereyi kapatabilir ve mobil uygulamadan yeni şifrenizle giriş yapabilirsiniz.</p>
+      <h2>Şifreniz Başarıyla Sıfırlandı!</h2>
+      <p>Hesap şifreniz güvenli bir şekilde güncellendi. Artık bu sayfayı kapatabilir ve mobil uygulamadan yeni şifrenizle giriş yapabilirsiniz.</p>
     </div>
 
     <!-- 3. E-POSTA DOĞRULAMA (KAYIT ONAY) EKRANI -->
@@ -236,96 +172,97 @@
   <script>
     const SUPABASE_URL = "https://tzbvnvmxkzazhfiyqeyo.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_l53MN6fRHWk3BV90KWf_9A_LvblttjB";
-    
-    let supabaseClient = null;
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Element referansları
+    const loadingScreen = document.getElementById('loading-screen');
     const resetScreen = document.getElementById('reset-screen');
     const successScreen = document.getElementById('success-screen');
     const confirmScreen = document.getElementById('confirm-screen');
     const errorAlert = document.getElementById('error-alert');
     const submitBtn = document.getElementById('submit-btn');
 
-    // Başlangıç ekranını belirle
-    window.addEventListener('DOMContentLoaded', () => {
-      try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      } catch (err) {
-        console.error("Supabase yüklenemedi:", err);
-      }
+    function showView(screen) {
+      [loadingScreen, resetScreen, successScreen, confirmScreen].forEach(s => s.classList.remove('active-view'));
+      screen.classList.add('active-view');
+    }
 
-      const fullUrl = window.location.href;
-      
-      // E-posta kurtarma (Recovery) parametresi içeriyor mu?
-      if (fullUrl.includes('type=recovery') || fullUrl.includes('access_token')) {
+    function showError(msg) {
+      errorAlert.innerText = msg;
+      errorAlert.style.display = 'block';
+    }
+
+    // URL VEYA SUPABASE OTURUMUNDAN ŞİFRE SIFIRLAMA TESPİTİ
+    function checkRecoveryLink() {
+      const url = window.location.href;
+      const hash = window.location.hash;
+      const search = window.location.search;
+
+      return (
+        url.includes('type=recovery') ||
+        hash.includes('type=recovery') ||
+        search.includes('type=recovery') ||
+        search.includes('code=') ||
+        hash.includes('access_token')
+      );
+    }
+
+    // SAYFA AÇILDIĞINDA ÇALIŞACAK KONTROL
+    window.addEventListener('DOMContentLoaded', () => {
+      if (checkRecoveryLink()) {
         showView(resetScreen);
       } else {
         showView(confirmScreen);
       }
     });
 
-    function showView(screen) {
-      [resetScreen, successScreen, confirmScreen].forEach(s => s.classList.remove('active-view'));
-      screen.classList.add('active-view');
-    }
+    // SUPABASE AUTH OLAYLARINI DİNLE
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        showView(resetScreen);
+      }
+    });
 
-    function showError(message) {
-      errorAlert.innerText = message;
-      errorAlert.style.display = 'block';
-    }
-
-    function hideError() {
+    // FORM GÖNDERME VE ETKİLEŞİMLİ DOĞRULAMA (VALIDATION)
+    document.getElementById('reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
       errorAlert.style.display = 'none';
-    }
 
-    // ŞİFRE SIFIRLAMA BUTON TIKLAMA İŞLEMİ
-    async function handlePasswordReset() {
-      hideError();
+      const p1 = document.getElementById('pwd').value.trim();
+      const p2 = document.getElementById('pwd-confirm').value.trim();
 
-      const p1 = document.getElementById('pwd').value;
-      const p2 = document.getElementById('pwd-confirm').value;
-
-      // 1. BOŞ ALAN VEYA KISA ŞİFRE KONTROLÜ
-      if (!p1 || p1.length < 6) {
-        showError("⚠️ Lütfen en az 6 karakterden oluşan bir şifre girin.");
-        return;
-      }
-
-      // 2. ŞİFRE EŞLEŞME KONTROLÜ (ETKİLEŞİMLİ VE ANINDA UYARI)
+      // 1. ŞİFRE UYUŞMAZLIK KONTROLÜ (ANINDA KIRMIZI UYARI)
       if (p1 !== p2) {
-        showError("⚠️ Girdiğiniz şifreler birbiriyle eşleşmiyor! Lütfen iki alana da aynı şifreyi girin.");
+        showError("⚠️ Girdiğiniz şifreler birbiriyle eşleşmiyor! Lütfen iki kutuya da aynı şifreyi girin.");
         return;
       }
 
-      // Buton durumunu değiştir
+      if (p1.length < 6) {
+        showError("⚠️ Şifreniz en az 6 karakterden oluşmalıdır.");
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerText = "Şifreniz Güncelleniyor...";
 
       try {
-        if (!supabaseClient) {
-          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
-
-        // 3. SUPABASE VERİTABANI ŞİFRE GÜNCELLEMESİ
-        const { data, error } = await supabaseClient.auth.updateUser({
-          password: p1
-        });
+        // 2. SUPABASE VERİTABANI GÜNCELLEMESİ
+        const { data, error } = await supabase.auth.updateUser({ password: p1 });
 
         if (error) {
-          showError("❌ İşlem Başarısız: " + (error.message || "Bağlantının süresi dolmuş olabilir. Lütfen uygulamadan yeni bir istek gönderin."));
+          showError("❌ Güncelleme Başarısız: " + error.message);
           submitBtn.disabled = false;
           submitBtn.innerText = "Şifreyi Güncelle";
         } else {
-          // Başarılı: Oturumu kapat ve Tebrik Ekranını göster
-          await supabaseClient.auth.signOut();
+          // Başarılı olursa geçici oturumu kapat ve tebrik ekranına geç
+          await supabase.auth.signOut();
           showView(successScreen);
         }
       } catch (err) {
-        showError("❌ Bir sistem hatası oluştu. Lütfen uygulamadan tekrar şifre sıfırlama isteği gönderin.");
+        showError("❌ Beklenmeyen bir hata oluştu. Lütfen uygulamadan tekrar şifre sıfırlama isteği gönderin.");
         submitBtn.disabled = false;
         submitBtn.innerText = "Şifreyi Güncelle";
       }
-    }
+    });
   </script>
 </body>
 </html>
